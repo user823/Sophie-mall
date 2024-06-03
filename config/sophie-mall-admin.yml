@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sophie_mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: sophie
+    password: 12345678
+  redis:
+    host: localhost
+    database: 0
+    port: 6379
+    password:
+    timeout: 3000ms
+
+minio:
+  endpoint: http://localhost:9000
+  bucketName: sophie-mall
+  accessKey: sophie
+  secretKey: 12345678
+
+logging:
+  level:
+    root: info
+    com:
+      sophie:
+        sophiemall: debug
+
+logstash:
+  host: localhost

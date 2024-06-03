@@ -1,0 +1,22 @@
+spring:
+  redis:
+    host: localhost
+    database: 0
+    port: 6379
+    password:
+    timeout: 3000ms
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwt-set-uri: 'http://localhost:8201/mall-auth/rsa/publicKey'
+
+logging:
+  level:
+    root: info
+    com:
+      sophie:
+        sophiemall: debug
+
+logstash:
+  host: localhost

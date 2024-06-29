@@ -6,6 +6,10 @@ import com.sophie.sophiemall.main.domain.MemberProductCollection;
 import com.sophie.sophiemall.main.service.MemberCollectionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,13 +21,13 @@ import java.util.List;
  * 会员收藏管理Controller
  */
 @Controller
-@Api(tags = "MemberCollectionController", description = "会员收藏管理")
+@Tag(name = "MemberCollectionController", description = "会员收藏管理")
 @RequestMapping("/member/productCollection")
 public class MemberProductCollectionController {
     @Autowired
     private MemberCollectionService memberCollectionService;
 
-    @ApiOperation("添加商品收藏")
+    @Operation(summary = "添加商品收藏")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult add(@RequestBody MemberProductCollection productCollection) {
@@ -35,7 +39,7 @@ public class MemberProductCollectionController {
         }
     }
 
-    @ApiOperation("删除收藏商品")
+    @Operation(summary = "删除收藏商品")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(Long productId) {
@@ -47,7 +51,7 @@ public class MemberProductCollectionController {
         }
     }
 
-    @ApiOperation("显示收藏列表")
+    @Operation(summary = "显示收藏列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<MemberProductCollection>> list(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -56,7 +60,7 @@ public class MemberProductCollectionController {
         return CommonResult.success(CommonPage.restPage(page));
     }
 
-    @ApiOperation("显示收藏商品详情")
+    @Operation(summary = "显示收藏商品详情")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<MemberProductCollection> detail(@RequestParam Long productId) {
@@ -64,7 +68,7 @@ public class MemberProductCollectionController {
         return CommonResult.success(memberProductCollection);
     }
 
-    @ApiOperation("清空收藏列表")
+    @Operation(summary = "清空收藏列表")
     @RequestMapping(value = "/clear", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult clear() {

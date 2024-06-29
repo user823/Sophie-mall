@@ -1,6 +1,6 @@
 package com.sophie.sophiemall.auth.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,12 +12,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 public class Oauth2TokenDto {
-    @ApiModelProperty("访问令牌")
+    @Schema(name = "访问令牌")
     private String token;
-    @ApiModelProperty("刷令牌")
+    @Schema(name = "刷令牌")
     private String refreshToken;
-    @ApiModelProperty("访问令牌头前缀")
+    @Schema(name = "访问令牌头前缀")
     private String tokenHead;
-    @ApiModelProperty("有效时间（秒）")
+    @Schema(name = "有效时间（秒）")
     private int expiresIn;
 }

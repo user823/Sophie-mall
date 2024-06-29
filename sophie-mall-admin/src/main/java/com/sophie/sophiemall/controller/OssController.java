@@ -5,8 +5,9 @@ import com.sophie.sophiemall.common.api.CommonResult;
 import com.sophie.sophiemall.dto.OssCallbackResult;
 import com.sophie.sophiemall.dto.OssPolicyResult;
 import com.sophie.sophiemall.service.impl.OssServiceImpl;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,13 @@ import javax.servlet.http.HttpServletRequest;
  * Oss相关操作接口
  */
 @Controller
-@Api(tags = "OssController", description = "Oss管理")
+@Tag(name = "OssController", description = "Oss管理")
 @RequestMapping("/aliyun/oss")
 public class OssController {
     @Autowired
     private OssServiceImpl ossService;
 
-    @ApiOperation(value = "oss上传签名生成")
+    @Operation(summary= "oss上传签名生成")
     @RequestMapping(value = "/policy", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<OssPolicyResult> policy() {
@@ -31,7 +32,7 @@ public class OssController {
         return CommonResult.success(result);
     }
 
-    @ApiOperation(value = "oss上传成功回调")
+    @Operation(summary = "oss上传成功回调")
     @RequestMapping(value = "callback", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<OssCallbackResult> callback(HttpServletRequest request) {

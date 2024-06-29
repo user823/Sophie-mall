@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +14,9 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class UserDto {
+public class UserDto implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String username;
     private String password;

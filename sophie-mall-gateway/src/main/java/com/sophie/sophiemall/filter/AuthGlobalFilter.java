@@ -2,7 +2,6 @@ package com.sophie.sophiemall.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.sophie.sophiemall.common.constant.AuthConstant;
-import com.nimbusds.jose.JWSObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.text.ParseException;
 
 /**
  * 将登录用户的JWT转化成用户信息的全局过滤器
@@ -32,13 +30,11 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         try {
             //从token中解析用户信息并设置到Header中去
             String realToken = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
-            JWSObject jwsObject = JWSObject.parse(realToken);
-            String userStr = jwsObject.getPayload().toString();
-            LOGGER.info("AuthGlobalFilter.filter() user:{}",userStr);
+            LOGGER.info("AuthGlobalFilter.filter() user:{}",realToken);
             // 修改ServerHttpRequest 对象中的请求头
-            ServerHttpRequest request = exchange.getRequest().mutate().header(AuthConstant.USER_TOKEN_HEADER, userStr).build();
+            ServerHttpRequest request = exchange.getRequest().mutate().header(AuthConstant.USER_TOKEN_HEADER, realToken).build();
             exchange = exchange.mutate().request(request).build();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return chain.filter(exchange);

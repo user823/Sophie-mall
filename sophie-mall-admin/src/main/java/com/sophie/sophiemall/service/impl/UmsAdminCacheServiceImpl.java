@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     @Autowired
-    private UmsAdminService adminService;
-    @Autowired
     private RedisService redisService;
     @Value("${redis.database}")
     private String REDIS_DATABASE;
@@ -25,20 +23,20 @@ public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
     private String REDIS_KEY_ADMIN;
 
     @Override
-    public void delAdmin(Long adminId) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + adminId;
+    public void delAdmin(String username) {
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username;
         redisService.del(key);
     }
 
     @Override
-    public UmsAdmin getAdmin(Long adminId) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + adminId;
+    public UmsAdmin getAdmin(String username) {
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username;
         return (UmsAdmin) redisService.get(key);
     }
 
     @Override
     public void setAdmin(UmsAdmin admin) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getId();
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.getUsername();
         redisService.set(key, admin, REDIS_EXPIRE);
     }
 }

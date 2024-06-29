@@ -1,7 +1,7 @@
 package com.sophie.sophiemall.auth.exception;
 
+import cn.dev33.satoken.exception.SaTokenException;
 import com.sophie.sophiemall.common.api.CommonResult;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class Oauth2ExceptionHandler {
     @ResponseBody
-    @ExceptionHandler(value = OAuth2Exception.class)
-    public CommonResult handleOauth2(OAuth2Exception e) {
+    @ExceptionHandler(value = SaTokenException.class)
+    public CommonResult handleOauth2(SaTokenException e) {
         return CommonResult.failed(e.getMessage());
     }
 }

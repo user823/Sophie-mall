@@ -2,7 +2,6 @@ package com.sophie.sophiemall.main.service.impl;
 
 import com.sophie.sophiemall.common.annotation.CacheException;
 import com.sophie.sophiemall.common.service.RedisService;
-import com.sophie.sophiemall.mapper.UmsMemberMapper;
 import com.sophie.sophiemall.model.UmsMember;
 import com.sophie.sophiemall.main.service.UmsMemberCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,20 +27,20 @@ public class UmsMemberCacheServiceImpl implements UmsMemberCacheService {
     private String REDIS_KEY_AUTH_CODE;
 
     @Override
-    public void delMember(Long memberId) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_MEMBER + ":" + memberId;
+    public void delMember(String memberName) {
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_MEMBER + ":" + memberName;
         redisService.del(key);
     }
 
     @Override
-    public UmsMember getMember(Long memberId) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_MEMBER + ":" + memberId;
+    public UmsMember getMember(String memberName) {
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_MEMBER + ":" + memberName;
         return (UmsMember) redisService.get(key);
     }
 
     @Override
     public void setMember(UmsMember member) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_MEMBER + ":" + member.getId();
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_MEMBER + ":" + member.getUsername();
         redisService.set(key, member, REDIS_EXPIRE);
     }
 

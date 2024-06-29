@@ -1,1 +1,4 @@
 .idea
+_output
+mall-admin-web
+**/target

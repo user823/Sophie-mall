@@ -9,12 +9,12 @@ public interface UmsMemberCacheService {
     /**
      * 删除会员用户缓存
      */
-    void delMember(Long memberId);
+    void delMember(String memberName);
 
     /**
      * 获取会员用户缓存
      */
-    UmsMember getMember(Long memberId);
+    UmsMember getMember(String memberName);
 
     /**
      * 设置会员用户缓存

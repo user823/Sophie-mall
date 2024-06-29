@@ -4,8 +4,12 @@ import com.sophie.sophiemall.common.api.CommonPage;
 import com.sophie.sophiemall.common.api.CommonResult;
 import com.sophie.sophiemall.main.domain.MemberReadHistory;
 import com.sophie.sophiemall.main.service.MemberReadHistoryService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,13 +21,13 @@ import java.util.List;
  * 会员商品浏览记录管理Controller
  */
 @Controller
-@Api(tags = "MemberReadHistoryController", description = "会员商品浏览记录管理")
+@Tag(name = "MemberReadHistoryController", description = "会员商品浏览记录管理")
 @RequestMapping("/member/readHistory")
 public class MemberReadHistoryController {
     @Autowired
     private MemberReadHistoryService memberReadHistoryService;
 
-    @ApiOperation("创建浏览记录")
+    @Operation(summary = "创建浏览记录")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult create(@RequestBody MemberReadHistory memberReadHistory) {
@@ -35,7 +39,7 @@ public class MemberReadHistoryController {
         }
     }
 
-    @ApiOperation("删除浏览记录")
+    @Operation(summary = "删除浏览记录")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(@RequestParam("ids") List<String> ids) {
@@ -47,7 +51,7 @@ public class MemberReadHistoryController {
         }
     }
 
-    @ApiOperation("清空除浏览记录")
+    @Operation(summary = "清空除浏览记录")
     @RequestMapping(value = "/clear", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult clear() {
@@ -55,7 +59,7 @@ public class MemberReadHistoryController {
         return CommonResult.success(null);
     }
 
-    @ApiOperation("分页获取用户浏览记录")
+    @Operation(summary = "分页获取用户浏览记录")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<MemberReadHistory>> list(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,

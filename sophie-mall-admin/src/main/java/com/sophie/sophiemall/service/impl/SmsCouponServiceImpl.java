@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 优惠券管理Service实现类
@@ -85,7 +86,7 @@ public class SmsCouponServiceImpl implements SmsCouponService {
         couponParam.setId(id);
         int count =couponMapper.updateByPrimaryKey(couponParam);
         //删除后插入优惠券和商品关系表
-        if(couponParam.getUseType().equals(2)){
+        if(Objects.equals(couponParam.getUseType(), 2)){
             for(SmsCouponProductRelation productRelation:couponParam.getProductRelationList()){
                 productRelation.setCouponId(couponParam.getId());
             }
@@ -93,7 +94,7 @@ public class SmsCouponServiceImpl implements SmsCouponService {
             productRelationDao.insertList(couponParam.getProductRelationList());
         }
         //删除后插入优惠券和商品分类关系表
-        if(couponParam.getUseType().equals(1)){
+        if(Objects.equals(couponParam.getUseType(), 1)){
             for (SmsCouponProductCategoryRelation couponProductCategoryRelation : couponParam.getProductCategoryRelationList()) {
                 couponProductCategoryRelation.setCouponId(couponParam.getId());
             }

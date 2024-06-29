@@ -5,7 +5,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:mysql://localhost:3306/sophie_mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:mysql://10.211.55.3:3306/sophie_mall?useUnicode=true&charset=utf8mb4&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: sophie
     password: 12345678
     druid:
@@ -18,7 +18,7 @@ spring:
         login-username: druid
         login-password: druid
   rabbitmq: #rabbitmq相关配置
-    host: localhost
+    host: 10.211.55.3
     port: 5672
     username: sophie
     password: 12345678
@@ -28,11 +28,12 @@ spring:
       max-file-size: 10MB #限制文件上传大小为10M
   data:
     redis:
-      host: localhost
+      host: 10.211.55.3
       database: 0
       port: 6379
-      password:
+      password: 12345678
       timeout: 3000ms
+
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml
@@ -68,6 +69,11 @@ minio:
   bucketName: sophie-mall #存储桶名称
   accessKey: sophie #访问的key
   secretKey: 12345678 #访问的秘钥
+
+sa-token:
+  token-name: Authorization
+  oauth2:
+    is-password: true
 
 feign:
   okhttp:

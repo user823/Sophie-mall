@@ -1,5 +1,7 @@
 package com.sophie.sophiemall.main.service.impl;
 
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -126,7 +128,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         UmsMember umsMember = memberList.get(0);
         umsMember.setPassword(BCrypt.hashpw(password));
         memberMapper.updateByPrimaryKeySelective(umsMember);
-        memberCacheService.delMember(umsMember.getId());
+        memberCacheService.delMember(umsMember.getUsername());
     }
 
     @Override
@@ -135,12 +137,12 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         if(StrUtil.isEmpty(userStr)){
             Asserts.fail(ResultCode.UNAUTHORIZED);
         }
-        UserDto userDto = JSONUtil.toBean(userStr, UserDto.class);
-        UmsMember member = memberCacheService.getMember(userDto.getId());
+        String username = (String)SaOAuth2Util.getLoginIdByAccessToken(userStr);
+        UmsMember member = memberCacheService.getMember(username);
         if(member!=null){
             return member;
         }else{
-            member = getById(userDto.getId());
+            member = getByUsername(username);
             memberCacheService.setMember(member);
             return member;
         }
@@ -152,7 +154,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         record.setId(id);
         record.setIntegration(integration);
         memberMapper.updateByPrimaryKeySelective(record);
-        memberCacheService.delMember(id);
+        memberCacheService.delMember(getById(id).getUsername());
     }
 
     @Override
@@ -174,10 +176,11 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         }
         Map<String, String> params = new HashMap<>();
         params.put("client_id", AuthConstant.PORTAL_CLIENT_ID);
-        params.put("client_secret","123456");
+        params.put("client_secret", AuthConstant.ADMIN_CLIENT_SECRET);
         params.put("grant_type","password");
         params.put("username",username);
         params.put("password",password);
+        params.put("scope", "all");
         return authService.getAccessToken(params);
     }
 

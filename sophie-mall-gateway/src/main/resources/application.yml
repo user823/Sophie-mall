@@ -1,6 +1,8 @@
 server:
   port: 8201
 spring:
+  main:
+    web-application-type: reactive
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -41,17 +43,13 @@ spring:
             - Path=/mall-demo/**
           filters:
             - StripPrefix=1
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: 'http://localhost:8201/mall-auth/rsa/publicKey' #配置RSA的公钥访问地址
   data:
     redis:
       database: 0
       port: 6379
-      host: localhost
-      password:
+      host: 10.211.55.3
+      password: 12345678
+
 secure:
   ignore:
     urls: #配置白名单路径
@@ -78,6 +76,13 @@ secure:
       - "/mall-admin/admin/login"
       - "/mall-admin/admin/register"
       - "/mall-admin/minio/upload"
+
+sa-token:
+  token-name: Authorization
+  token-prefix: Bearer
+  oauth2:
+    is-password: true
+
 management: #开启SpringBoot Admin的监控
   endpoints:
     web:

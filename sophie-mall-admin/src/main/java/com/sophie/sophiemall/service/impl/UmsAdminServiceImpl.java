@@ -1,5 +1,6 @@
 package com.sophie.sophiemall.service.impl;
 
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.BCrypt;
@@ -54,6 +55,8 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     private AuthService authService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private UmsAdminCacheService umsAdminCacheService;
 
     @Override
     public UmsAdmin getAdminByUsername(String username) {
@@ -97,6 +100,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         params.put("grant_type","password");
         params.put("username",username);
         params.put("password",password);
+        params.put("scope", "all");
         CommonResult restResult = authService.getAccessToken(params);
         if(ResultCode.SUCCESS.getCode()==restResult.getCode()&&restResult.getData()!=null){
 //            updateLoginTimeByUsername(username);
@@ -165,14 +169,15 @@ public class UmsAdminServiceImpl implements UmsAdminService {
             }
         }
         int count = adminMapper.updateByPrimaryKeySelective(admin);
-        getCacheService().delAdmin(id);
+        umsAdminCacheService.delAdmin(admin.getUsername());
         return count;
     }
 
     @Override
     public int delete(Long id) {
+        UmsAdmin admin = getItem(id);
         int count = adminMapper.deleteByPrimaryKey(id);
-        getCacheService().delAdmin(id);
+        umsAdminCacheService.delAdmin(admin.getUsername());
         return count;
     }
 
@@ -226,7 +231,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         }
         umsAdmin.setPassword(BCrypt.hashpw(param.getNewPassword()));
         adminMapper.updateByPrimaryKey(umsAdmin);
-        getCacheService().delAdmin(umsAdmin.getId());
+        umsAdminCacheService.delAdmin(umsAdmin.getUsername());
         return 1;
     }
 
@@ -253,19 +258,18 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         if(StrUtil.isEmpty(userStr)){
             Asserts.fail(ResultCode.UNAUTHORIZED);
         }
-        UserDto userDto = JSONUtil.toBean(userStr, UserDto.class);
-        UmsAdmin admin = getCacheService().getAdmin(userDto.getId());
+        String username = (String)SaOAuth2Util.getLoginIdByAccessToken(userStr);
+        UmsAdmin admin = umsAdminCacheService.getAdmin(username);
         if(admin!=null){
             return admin;
         }else{
-            admin = adminMapper.selectByPrimaryKey(userDto.getId());
-            getCacheService().setAdmin(admin);
+            admin = getAdminByUsername(username);
+            umsAdminCacheService.setAdmin(admin);
             return admin;
         }
     }
 
-    @Override
     public UmsAdminCacheService getCacheService() {
-        return SpringUtil.getBean(UmsAdminCacheService.class);
+        return umsAdminCacheService;
     }
 }

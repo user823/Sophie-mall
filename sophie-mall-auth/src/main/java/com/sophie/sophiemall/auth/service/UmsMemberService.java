@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * 前台会员服务远程调用service
  */
-@FeignClient("mall-portal")
+@FeignClient("mall-main")
 public interface UmsMemberService {
     @GetMapping("/sso/loadByUsername")
     UserDto loadUserByUsername(@RequestParam String username);

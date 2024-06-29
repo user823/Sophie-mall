@@ -218,7 +218,6 @@ public class OmsMainOrderServiceImpl implements OmsMainOrderService {
         if(CollUtil.isNotEmpty(orderSettings)){
             order.setAutoConfirmDay(orderSettings.get(0).getConfirmOvertime());
         }
-        // TODO: 2018/9/3 bill_*,delivery_*
         //插入order表和order_item表
         orderMapper.insert(order);
         for (OmsOrderItem orderItem : orderItemList) {

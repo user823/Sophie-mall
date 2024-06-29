@@ -13,6 +13,8 @@ import com.sophie.sophiemall.service.UmsAdminService;
 import com.sophie.sophiemall.service.UmsRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +29,7 @@ import java.util.stream.Collectors;
  * 后台用户管理
  */
 @Controller
-@Api(tags = "UmsAdminController", description = "后台用户管理")
+@Tag(name = "UmsAdminController", description = "后台用户管理")
 @RequestMapping("/admin")
 public class UmsAdminController {
     @Autowired
@@ -35,7 +37,7 @@ public class UmsAdminController {
     @Autowired
     private UmsRoleService roleService;
 
-    @ApiOperation(value = "用户注册")
+    @Operation(summary = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<UmsAdmin> register(@Validated @RequestBody UmsAdminParam umsAdminParam) {
@@ -46,14 +48,14 @@ public class UmsAdminController {
         return CommonResult.success(umsAdmin);
     }
 
-    @ApiOperation(value = "登录以后返回token")
+    @Operation(summary = "登录以后返回token")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult login(@Validated @RequestBody UmsAdminLoginParam umsAdminLoginParam) {
         return adminService.login(umsAdminLoginParam.getUsername(),umsAdminLoginParam.getPassword());
     }
 
-    @ApiOperation(value = "获取当前登录用户信息")
+    @Operation(summary = "获取当前登录用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getAdminInfo() {
@@ -70,14 +72,14 @@ public class UmsAdminController {
         return CommonResult.success(data);
     }
 
-    @ApiOperation(value = "登出功能")
+    @Operation(summary = "登出功能")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult logout() {
         return CommonResult.success(null);
     }
 
-    @ApiOperation("根据用户名或姓名分页获取用户列表")
+    @Operation(summary = "根据用户名或姓名分页获取用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<UmsAdmin>> list(@RequestParam(value = "keyword", required = false) String keyword,
@@ -87,7 +89,7 @@ public class UmsAdminController {
         return CommonResult.success(CommonPage.restPage(adminList));
     }
 
-    @ApiOperation("获取指定用户信息")
+    @Operation(summary = "获取指定用户信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<UmsAdmin> getItem(@PathVariable Long id) {
@@ -95,7 +97,7 @@ public class UmsAdminController {
         return CommonResult.success(admin);
     }
 
-    @ApiOperation("修改指定用户信息")
+    @Operation(summary = "修改指定用户信息")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@PathVariable Long id, @RequestBody UmsAdmin admin) {
@@ -106,7 +108,7 @@ public class UmsAdminController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("修改指定用户密码")
+    @Operation(summary = "修改指定用户密码")
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updatePassword(@RequestBody UpdateAdminPasswordParam updatePasswordParam) {
@@ -124,7 +126,7 @@ public class UmsAdminController {
         }
     }
 
-    @ApiOperation("删除指定用户信息")
+    @Operation(summary = "删除指定用户信息")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(@PathVariable Long id) {
@@ -135,7 +137,7 @@ public class UmsAdminController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("修改帐号状态")
+    @Operation(summary = "修改帐号状态")
     @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateStatus(@PathVariable Long id,@RequestParam(value = "status") Integer status) {
@@ -148,7 +150,7 @@ public class UmsAdminController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("给用户分配角色")
+    @Operation(summary = "给用户分配角色")
     @RequestMapping(value = "/role/update", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateRole(@RequestParam("adminId") Long adminId,
@@ -160,7 +162,7 @@ public class UmsAdminController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("获取指定用户的角色")
+    @Operation(summary = "获取指定用户的角色")
     @RequestMapping(value = "/role/{adminId}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
@@ -168,7 +170,7 @@ public class UmsAdminController {
         return CommonResult.success(roleList);
     }
 
-    @ApiOperation("根据用户名获取通用用户信息")
+    @Operation(summary = "根据用户名获取通用用户信息")
     @RequestMapping(value = "/loadByUsername", method = RequestMethod.GET)
     @ResponseBody
     public UserDto loadUserByUsername(@RequestParam String username) {

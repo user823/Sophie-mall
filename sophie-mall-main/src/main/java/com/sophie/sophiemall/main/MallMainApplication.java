@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = "com.sophie.sophiemall")
+@SpringBootApplication(scanBasePackages = {"com.sophie.sophiemall", "com.sophie.sophiemall.main"})
 public class MallMainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MallMainApplication.class, args);

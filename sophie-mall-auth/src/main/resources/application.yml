@@ -1,10 +1,23 @@
-
 server:
   port: 8401
+
 spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+  data:
+    redis:
+      database: 0
+      port: 6379
+      host: 10.211.55.3
+      password: 12345678
+
+sa-token:
+  token-name: Authorization
+  oauth2:
+    is-password: true
+
 management:
   endpoints:
     web:

@@ -7,6 +7,8 @@ import com.sophie.sophiemall.model.SmsCoupon;
 import com.sophie.sophiemall.service.SmsCouponService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +19,12 @@ import java.util.List;
  * 优惠券管理Controller
  */
 @Controller
-@Api(tags = "SmsCouponController", description = "优惠券管理")
+@Tag(name = "SmsCouponController", description = "优惠券管理")
 @RequestMapping("/coupon")
 public class SmsCouponController {
     @Autowired
     private SmsCouponService couponService;
-    @ApiOperation("添加优惠券")
+    @Operation(summary = "添加优惠券")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult add(@RequestBody SmsCouponParam couponParam) {
@@ -33,7 +35,7 @@ public class SmsCouponController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("删除优惠券")
+    @Operation(summary = "删除优惠券")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(@PathVariable Long id) {
@@ -44,7 +46,7 @@ public class SmsCouponController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("修改优惠券")
+    @Operation(summary = "修改优惠券")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@PathVariable Long id,@RequestBody SmsCouponParam couponParam) {
@@ -55,7 +57,7 @@ public class SmsCouponController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("根据优惠券名称和类型分页获取优惠券列表")
+    @Operation(summary = "根据优惠券名称和类型分页获取优惠券列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<SmsCoupon>> list(
@@ -67,7 +69,7 @@ public class SmsCouponController {
         return CommonResult.success(CommonPage.restPage(couponList));
     }
 
-    @ApiOperation("获取单个优惠券的详细信息")
+    @Operation(summary = "获取单个优惠券的详细信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<SmsCouponParam> getItem(@PathVariable Long id) {

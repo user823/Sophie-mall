@@ -3,8 +3,6 @@
 -- arg1: xxx
 -- arg2: xxx
 -- ...
--- 如果是get，后续的arg会拼接成路径参数；否则放入到请求体中
-local json = require "json"
 
 counter = 1
 threads = {}
@@ -22,7 +20,7 @@ end
 
 function init(args)
     -- 初始化计数器和成功请求数
-    requests  = 0
+    requests = 0
     responses = 0
     ok = 0
 
@@ -31,22 +29,20 @@ function init(args)
     for i, arg in ipairs(args) do
         local key, value = arg:match("(%w+)=(.*)")
         if key and value then
-            if key == "method" then
-                wrk.method = value
-            elseif value:sub(1,1) == "[" then
-                extra_arg[key] = json.decode(value)
-            else
-                extra_arg[key] = value
-            end
+            extra_arg[key] = value
         end
     end
 
     -- 构造请求参数
-    if wrk.method == "GET" then
-        wrk.path = wrk.path .. "?" .. createPathArgs(extra_arg)
+    if extra_arg["method"] == "POST" then
+        wrk.body = extra_arg["form"] or ""
+        wrk.method = "POST"
     else
-        wrk.body = createJsonArgs(extra_arg)
+        wrk.path = wrk.path .. "?" .. (extra_arg["query"] or "")
     end
+
+    -- 调试输出，检查构造的请求体
+    print(wrk.format(wrk.method, wrk.path, wrk.headers, wrk.body))
 end
 
 function request()
@@ -80,17 +76,4 @@ function done(summary, latency, requests)
 
     local msg = "all threads avg success ratio is %.3f"
     print(msg:format(totalOk/totalReq))
-end
-
-function createPathArgs(args)
-    local pathArgs = ""
-    for k, v in pairs(args) do
-        pathArgs = pathArgs .. k .. "=" .. v .. "&"
-    end
-    pathArgs = string.sub(pathArgs, 1, -2)
-    return pathArgs
-end
-
-function createJsonArgs(args)
-    return json.encode(args)
 end

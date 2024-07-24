@@ -1,0 +1,117 @@
+server:
+  port: 8095
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  data:
+    redis:
+      host: localhost
+      database: 0
+      port: 6379
+      password: 12345678
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 200
+          max-idle: 10
+          max-wait: -1ms
+
+  shardingsphere:
+    datasource:
+      names: ds0, ds1
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/seckill_stock_0?useUnicode=true&characterEncoding=UTF-8&connectTimeout=2000&socketTimeout=5000
+        username: sophie
+        password: 12345678
+
+      ds1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/seckill_stock_1?useUnicode=true&characterEncoding=UTF-8&connectTimeout=2000&socketTimeout=5000
+        username: sophie
+        password: 121345678
+
+    sharding:
+      tables:
+        seckill_stock_bucket:
+          database-strategy:
+            inline:
+              sharding-column: goods_id
+              algorithm-expression: ds$->{goods_id % 3}
+          actualDataNodes: ds${0..2}.seckill_stock_bucket_${0..2}
+          tableStrategy:
+            inline:
+              shardingColumn: goods_id
+              algorithm-expression: seckill_stock_bucket_${goods_id % 3}
+          key-generator:
+            column: id
+            type: SNOWFLACK
+    props:
+      sql:
+        show: false
+
+jdbc:
+  url: jdbc:mysql://localhost:3306/seckill_reservation?useUnicode=true&characterEncoding=UTF-8&connectTimeout=2000&socketTimeout=5000
+  username: sophie
+  password: 12345678
+  initialSize: 5
+  minIdle: 10
+  maxActive: 30
+  maxWait: 60000
+  testWhileIdle: true
+  timeBetweenEvictionRunsMillis: 10000
+  testOnBorrow: false
+  testOnReturn: false
+  validationQuery: select 1
+  dbType: mysql
+  filters: stat
+
+#分布式锁
+distributed:
+  cache:
+    type: redis
+  lock:
+    type: redisson
+
+# 本地缓存
+local:
+  cache:
+    type: caffeine
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:com/**/mapper/*.xml
+
+place:
+  order:
+    type: bucket
+
+dubbo:
+  registry:
+    address: nacos://localhost:8848?register-consumer-url=true
+    register-mode: instance
+  protocol:
+    name: dubbo
+    port: 20880
+  application:
+    name: mall-seckill-order
+  scan:
+    base-packages: com.sophie.sophiemall.seckill
+
+rocketmq:
+  producer:
+    endpoints: localhost:8081
+    access-key: sophie
+    secret-key: 12345678
+    topic: topic_event_rocketmq_stock
+
+  simple-consumer:
+    access-key: sophie
+    secret-key: 12345678
+    endpoints: localhost:8081

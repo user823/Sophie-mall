@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+  <modelVersion>4.0.0</modelVersion>
+    
+  <parent>
+        
+    <groupId>com.sophie.sophiemall</groupId>
+        
+    <artifactId>Sophie-mall</artifactId>
+        
+    <version>1.0-SNAPSHOT</version>
+      
+  </parent>
+    
+  <groupId>com.sophie.sophiemall</groupId>
+    
+  <artifactId>sophie-mall-seckill</artifactId>
+    
+  <version>1.0-SNAPSHOT</version>
+    
+  <name>sophie-mall-seckill</name>
+    
+  <url>http://maven.apache.org</url>
+    
+  <packaging>pom</packaging>
+    
+  <dependencies>
+        
+    <dependency>
+            
+      <groupId>junit</groupId>
+            
+      <artifactId>junit</artifactId>
+            
+      <version>3.8.1</version>
+            
+      <scope>test</scope>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.mybatis</groupId>
+            
+      <artifactId>mybatis</artifactId>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>com.alibaba</groupId>
+            
+      <artifactId>druid-spring-boot-starter</artifactId>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.mybatis.spring.boot</groupId>
+            
+      <artifactId>mybatis-spring-boot-starter</artifactId>
+          
+    </dependency>
+        
+    <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
+        
+    <dependency>
+            
+      <groupId>com.github.ben-manes.caffeine</groupId>
+            
+      <artifactId>caffeine</artifactId>
+            
+      <version>3.1.8</version>
+          
+    </dependency>
+        
+    <!--集成消息队列-->
+        
+    <dependency>
+            
+      <groupId>org.apache.rocketmq</groupId>
+            
+      <artifactId>rocketmq-v5-client-spring-boot</artifactId>
+            
+      <version>2.3.0</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>com.alibaba.fastjson2</groupId>
+            
+      <artifactId>fastjson2</artifactId>
+            
+      <version>2.0.52</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.springframework.boot</groupId>
+            
+      <artifactId>spring-boot-starter-web</artifactId>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.apache.shardingsphere</groupId>
+            
+      <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+            
+      <version>4.1.1</version>
+          
+    </dependency>
+        
+    <!--redis依赖配置-->
+        
+    <dependency>
+            
+      <groupId>org.springframework.boot</groupId>
+            
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+          
+    </dependency>
+        
+    <!--TODO: 链路追踪 -->
+        
+    <!--TODO: 日志聚合 -->
+        
+    <dependency>
+            
+      <groupId>com.alibaba.cloud</groupId>
+            
+      <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>com.alibaba.cloud</groupId>
+            
+      <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            
+      <exclusions>
+                
+        <exclusion>
+                    
+          <groupId>com.alibaba.nacos</groupId>
+                    
+          <artifactId>nacos-client</artifactId>
+                  
+        </exclusion>
+              
+      </exclusions>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>com.alibaba.nacos</groupId>
+            
+      <artifactId>nacos-client</artifactId>
+            
+      <version>2.4.0</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>com.alibaba.cloud</groupId>
+            
+      <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>com.alibaba.csp</groupId>
+            
+      <artifactId>sentinel-datasource-nacos</artifactId>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.apache.commons</groupId>
+            
+      <artifactId>commons-pool2</artifactId>
+            
+      <version>2.12.0</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.redisson</groupId>
+            
+      <artifactId>redisson</artifactId>
+            
+      <version>3.33.0</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.apache.commons</groupId>
+            
+      <artifactId>commons-lang3</artifactId>
+            
+      <version>3.15.0</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>joda-time</groupId>
+            
+      <artifactId>joda-time</artifactId>
+            
+      <version>2.12.7</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.apache.dubbo</groupId>
+            
+      <artifactId>dubbo-spring-boot-starter</artifactId>
+            
+      <version>3.2.14</version>
+          
+    </dependency>
+        
+    <dependency>
+            
+      <groupId>org.apache.dubbo</groupId>
+            
+      <artifactId>dubbo-registry-nacos</artifactId>
+            
+      <version>3.2.14</version>
+          
+    </dependency>
+      
+  </dependencies>
+    
+  <modules>
+        
+    <module>sophie-mall-seckill-activity</module>
+        
+    <module>sophie-mall-seckill-common</module>
+        
+    <module>sophie-mall-seckill-dubbo-interfaces</module>
+        
+    <module>sophie-mall-seckill-order</module>
+        
+    <module>sophie-mall-seckill-reservation</module>
+        
+    <module>sophie-mall-seckill-stock</module>
+        
+    <module>sophie-mall-seckill-user</module>
+        
+    <module>sophie-mall-seckill-goods</module>
+      
+  </modules>
+                
+
+
+
+
+
+
+
+</project>

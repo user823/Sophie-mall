@@ -13,4 +13,4 @@ if [ ! -f ${target} ]; then
     exit 1
 fi
 
-/opt/jdk-17.0.2/bin/java -jar ${target}
+java -jar ${target}

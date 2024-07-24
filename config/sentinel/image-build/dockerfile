@@ -1,0 +1,25 @@
+# Stage 1: Builder
+FROM eclipse-temurin:11 AS builder
+
+RUN set -eux; \
+    apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update; \
+    apt-get install -y curl; \
+    rm -rf /var/lib/apt/lists/*;
+
+RUN curl -L https://github.com/alibaba/Sentinel/releases/download/1.8.8/sentinel-dashboard-1.8.8.jar -o /opt/sentinel-dashboard.jar
+
+# Stage 2: Final
+FROM eclipse-temurin:11
+WORKDIR /opt/sentinel
+
+EXPOSE 8858
+EXPOSE 8719
+
+# Copy the downloaded jar file from the builder stage
+COPY --from=builder /opt/sentinel-dashboard.jar .
+
+# Copy the entrypoint script and ensure it is executable
+COPY scripts/ .
+RUN chmod +x docker-entrypoint.sh
+
+ENTRYPOINT ["./docker-entrypoint.sh"]

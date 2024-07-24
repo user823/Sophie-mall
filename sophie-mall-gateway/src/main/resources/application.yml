@@ -43,6 +43,43 @@ spring:
             - Path=/mall-demo/**
           filters:
             - StripPrefix=1
+        - id: mall-seckill-acivity
+          uri: lb://mall-seckill-acivity
+          predicates:
+            - Path=/mall-seckill-acivity/**
+          filters:
+            - StripPrefix=1
+        - id: mall-seckill-goods
+          uri: lb://mall-seckill-goods
+          predicates:
+            - Path=/mall-seckill-goods/**
+          filters:
+            - StripPrefix=1
+        - id: mall-seckill-order
+          uri: lb://mall-seckill-order
+          predicates:
+            - Path=/mall-seckill-order/**
+          filters:
+            - StripPrefix=1
+        - id: mall-seckill-reservation
+          uri: lb://mall-seckill-reservation
+          predicates:
+            - Path=/mall-seckill-reservation
+          filters:
+            - StripPrefix=1
+        - id: mall-seckill-stock
+          uri: lb://mall-seckill-stock
+          predicates:
+            - Path=/mall-seckill-stock
+          filters:
+            - StripPrefix=1
+        - id: mall-seckill-user
+          uri: lb://mall-seckill-user
+          predicates:
+            - Path=/mall-seckill-user
+          filters:
+            - StripPrefix=1
+
   data:
     redis:
       database: 0

@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        server-addr: http://localhost:8848
+        file-extension: yaml
+    sentinel:
+      transport:
+        port: 9993
+        dashboard: localhost:8888
+      eager: true
+
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            data-id: SENTINEL-FLOW-CONFIGURATION
+            data-type: json
+            rule-type: flow
+            namespace: sentinel-config
+        ds2:
+          nacos:
+            server-addr: localhost:8848
+            data-id: SENTINEL-DEGRADE-CONFIGURATION
+            data-type: json
+            rule-type: degrade
+            namespace: sentinel-config

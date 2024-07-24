@@ -1,0 +1,65 @@
+server:
+  port: 8096
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  data:
+    redis:
+      host: localhost
+      database: 0
+      port: 6379
+      password: 12345678
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 200
+          max-idle: 10
+          max-wait: -1ms
+
+  shardingsphere:
+    enabled: false
+
+jdbc:
+  url: jdbc:mysql://localhost:3306/seckill_user?useUnicode=true&characterEncoding=UTF-8&connectTimeout=2000&socketTimeout=5000
+  username: sophie
+  password: 12345678
+  initialSize: 5
+  minIdle: 10
+  maxActive: 30
+  maxWait: 60000
+  testWhileIdle: true
+  timeBetweenEvictionRunsMillis: 10000
+  testOnBorrow: false
+  testOnReturn: false
+  validationQuery: select 1
+  dbType: mysql
+  filters: stat
+
+#分布式锁
+distributed:
+  cache:
+    type: redis
+  lock:
+    type: redisson
+
+# 本地缓存
+local:
+  cache:
+    type: caffeine
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:com/**/mapper/*.xml
+
+rate:
+  limit:
+    local:
+      qps:
+        enable: true
+        default:
+          permitsPerSecond: 1
+          timeout: 0
